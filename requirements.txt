@@ -1,0 +1,10 @@
+Flask
+psycopg2-binary
+PyYAML
+python-dotenv
+groq
+pgvector
+langchain
+langchain-huggingface
+transformers
+torch
