@@ -77,5 +77,4 @@ def handle_query():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))  # fallback to 5000 if not defined
-    app.run(debug=True, port=port)
+    app.run(debug=True)

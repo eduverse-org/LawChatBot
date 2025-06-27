@@ -4,15 +4,13 @@ sentence-transformers
 langchain
 langchain-groq
 langchain-huggingface
-beautifulsoup4
 requests
 pandas
 numpy
 python-dotenv
 langchain-community
-PyPDF2
-chromadb
 psycopg2-binary
 pgvector
 Flask
 PyYAML
+gunicorn
