@@ -1,0 +1,14 @@
+llm:
+  model_name: "llama3-8b-8192"
+  max_tokens: 512
+  temperature: 0.7
+
+embedder:
+  model_name: all-MiniLM-L6-v2
+  device: cpu
+
+vector_store:
+  collection_name: legal_chunks
+  postgres:
+    connection_string: postgresql://Summarize_owner:npg_f3OzrITuW6Sh@ep-little-water-a680mi5v-pooler.us-west-2.aws.neon.tech/Summarize?sslmode=require&channel_binding=require
+    table_name: legal_embeddings
