@@ -1,10 +1,15 @@
-from flask import Flask, request, jsonify
+import os
+from dotenv import load_dotenv
+from flask import Flask, request, jsonify 
 import psycopg2
 import yaml
 from pgvector.psycopg2 import register_vector
 from embedder import Embedder
 from models.model_loader import ModelLoader
 from prompt_templates import basic_prompt
+
+# Load .env
+load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -43,7 +48,7 @@ def handle_query():
         if len(query_embedding) != 384:
             return jsonify({"error": f"Expected embedding of 384 dimensions, got {len(query_embedding)}"}), 500
 
-        # Step 3: Perform similarity search - FIXED: cast to vector type
+        # Step 3: Perform similarity search
         try:
             cursor.execute(
                 f"""
@@ -52,7 +57,7 @@ def handle_query():
                 ORDER BY embedding <-> %s::vector
                 LIMIT %s;
                 """,
-                (query_embedding, k)  # Fixed: cast array to vector type
+                (query_embedding, k)
             )
             rows = cursor.fetchall()
         except Exception as db_error:
@@ -63,17 +68,14 @@ def handle_query():
             return jsonify({"error": "No relevant context found in the database."}), 404
 
         context = "\n".join([row[0] for row in rows])
-
-        # Step 4: Format and send to Groq
         prompt = basic_prompt.format(context=context, question=question, language=language)
         answer = llm.generate_response(prompt)
 
-        return jsonify({
-            "answer": answer,
-        })
+        return jsonify({"answer": answer})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.getenv("PORT", 5000))  # fallback to 5000 if not defined
+    app.run(debug=True, port=port)
