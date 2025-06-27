@@ -4,7 +4,7 @@ llm:
   temperature: 0.7
 
 embedder:
-  model_name: all-MiniLM-L6-v2
+  model_name: thenlper/gte-small
   device: cpu
 
 vector_store:
