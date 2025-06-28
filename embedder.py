@@ -2,7 +2,7 @@ import yaml
 from langchain_huggingface import HuggingFaceEmbeddings
 
 class Embedder:
-    def _init_(self, config_path="config/config.yaml"):
+    def __init__(self, config_path="config/config.yaml"):  # <-- fixed here
         with open(config_path, "r") as file:
             config = yaml.safe_load(file)
 

@@ -7,12 +7,14 @@ from pgvector.psycopg2 import register_vector
 from embedder import Embedder
 from models.model_loader import ModelLoader
 from prompt_templates import basic_prompt
+from flask_cors import CORS
 
 # Load .env
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)
 
 # Load configuration
 with open("config/config.yaml", "r") as f:
